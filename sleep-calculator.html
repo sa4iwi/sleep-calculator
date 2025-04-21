@@ -1,0 +1,66 @@
+<details> <summary>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Калькулятор фаз сна</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f0f4f8;
+    }
+    h1 {
+      color: #333;
+    }
+    label, select, input {
+      margin: 10px 0;
+      display: block;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛌 Калькулятор фаз сна</h1>
+
+  <label for="wakeTime">⏰ Во сколько хочешь проснуться?</label>
+  <input type="time" id="wakeTime" value="07:00">
+
+  <label for="cycles">💤 Сколько циклов сна?</label>
+  <select id="cycles">
+    <option value="3">3 цикла (4.5 часа)</option>
+    <option value="4">4 цикла (6 часов)</option>
+    <option value="5" selected>5 циклов (7.5 часов)</option>
+    <option value="6">6 циклов (9 часов)</option>
+  </select>
+
+  <button onclick="calculateBedtime()">Рассчитать время отхода ко сну</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculateBedtime() {
+      const wakeTime = document.getElementById("wakeTime").value;
+      const cycles = parseInt(document.getElementById("cycles").value);
+      const fallAsleepTime = 15; // минут на засыпание
+
+      const [hours, minutes] = wakeTime.split(":").map(Number);
+      const wakeDate = new Date();
+      wakeDate.setHours(hours, minutes, 0, 0);
+
+      const totalSleepMinutes = (cycles * 90) + fallAsleepTime;
+      const bedtimeDate = new Date(wakeDate.getTime() - totalSleepMinutes * 60000);
+
+      const bedtimeStr = bedtimeDate.toTimeString().substring(0, 5);
+      document.getElementById("result").innerHTML = `🛏️ Ложись в <strong>${bedtimeStr}</strong>, чтобы проснуться бодрым 😊`;
+    }
+  </script>
+
+</body>
+</html>
+</details>
